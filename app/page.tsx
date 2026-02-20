@@ -26,6 +26,12 @@ import {
   CheckCircle2,
   Smartphone,
   FileAudio,
+  AlertTriangle,
+  DollarSign,
+  ClockAlert,
+  Ban,
+  TrendingDown,
+  Calculator,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -155,6 +161,135 @@ export default function LandingPage() {
                 <Link href="#how-it-works">Хэрхэн Ажилладагийг Харах</Link>
               </Button>
             </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section className="py-24 bg-destructive/5 border-y border-destructive/10">
+        <div className="max-w-6xl mx-auto px-5">
+          <motion.div
+            className="text-center mb-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <Badge variant="outline" className="mb-4 text-destructive border-destructive/30">
+              ⚠️ Та мэдэж байна уу?
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Хурлын тэмдэглэл таны бизнест{" "}
+              <span className="text-destructive">хэд хэдэн сая</span> төгрөг алдагдуулж байна
+            </h2>
+          </motion.div>
+
+          {/* ROI Calculator */}
+          <motion.div
+            className="max-w-3xl mx-auto mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <Card className="border-destructive/20 bg-background">
+              <CardHeader className="text-center pb-2">
+                <div className="w-14 h-14 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-3">
+                  <Calculator className="h-7 w-7 text-destructive" />
+                </div>
+                <CardTitle className="text-xl">Жишээ тооцоо</CardTitle>
+                <CardDescription>Сард ₮2,000,000 цалинтай ажилтан</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid sm:grid-cols-3 gap-4 text-center">
+                  <div className="p-4 rounded-lg bg-muted/50">
+                    <p className="text-3xl font-bold text-destructive">₮11,364</p>
+                    <p className="text-sm text-muted-foreground mt-1">Нэг цагийн өртөг</p>
+                    <p className="text-xs text-muted-foreground">₮2,000,000 ÷ 176 цаг</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-muted/50">
+                    <p className="text-3xl font-bold text-destructive">12 цаг</p>
+                    <p className="text-sm text-muted-foreground mt-1">Сард тэмдэглэлд зарцуулдаг</p>
+                    <p className="text-xs text-muted-foreground">Дундаж байгууллагын судалгаа</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <p className="text-3xl font-bold text-destructive">₮136,368</p>
+                    <p className="text-sm text-muted-foreground mt-1">Сар бүр алдагдаж буй мөнгө</p>
+                    <p className="text-xs text-muted-foreground">Зөвхөн нэг ажилтны хувьд</p>
+                  </div>
+                </div>
+                <div className="mt-6 p-4 rounded-lg bg-primary/5 border border-primary/20 text-center">
+                  <p className="text-sm text-muted-foreground mb-1">Манай Pro багцын үнэ</p>
+                  <p className="text-2xl font-bold text-primary">₮29,900<span className="text-base font-normal text-muted-foreground">/сар</span></p>
+                  <p className="text-sm font-medium text-primary mt-1">4.6 дахин буцаалт → Сард ₮106,468 хэмнэлт</p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Problem Cards */}
+          <motion.div
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={stagger}
+          >
+            {[
+              {
+                icon: ClockAlert,
+                title: "Цаг хугацааны алдагдал",
+                stat: "12 цаг/сар",
+                desc: "Нэг ажилтан сард дунджаар 12 цагийг хурлын тэмдэглэл бичихэд зарцуулдаг. Энэ бол бүтээмжтэй ажил хийх цаг.",
+              },
+              {
+                icon: DollarSign,
+                title: "Мөнгөний алдагдал",
+                stat: "₮136,000+/сар",
+                desc: "Ажилтанд бага үнэ цэнэтэй ажил хийлгэж байна. Тэмдэглэл бичих нь машинд зориулсан ажил — хүнд биш.",
+              },
+              {
+                icon: Ban,
+                title: "Алдаа, дутагдал",
+                stat: "40% алдаатай",
+                desc: "Хүн ядардаг, анхаарал сарнидаг. Хурлын 40% нь дутуу эсвэл буруу тэмдэглэгддэг. Чухал шийдвэр орхигдоно.",
+              },
+              {
+                icon: TrendingDown,
+                title: "Хариуцлага тодорхойгүй",
+                stat: '"Хэн юу хэлсэн бэ?"',
+                desc: "Тэмдэглэл хөтлөхгүй бол хэн юу амласан, ямар шийдвэр гарсныг хэн ч санахгүй. Маргаан үүснэ.",
+              },
+              {
+                icon: Globe,
+                title: "Монгол хэлний асуудал",
+                stat: "0 хэрэгсэл",
+                desc: "Google, Otter, Fireflies — нэг ч нь Монгол хэл дэмждэггүй. Та одоо хүртэл гараар бичиж байна.",
+              },
+              {
+                icon: AlertTriangle,
+                title: "Масштаблах боломжгүй",
+                stat: "Хязгаарлагдмал",
+                desc: "10 хүнтэй баг → сард 120 цаг тэмдэглэлд зарцуулна. Баг өсөх тусам асуудал нэмэгдэнэ.",
+              },
+            ].map((item, i) => (
+              <motion.div key={i} variants={fadeInUp}>
+                <Card className="h-full border-destructive/10 hover:border-destructive/30 transition-colors">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center">
+                        <item.icon className="h-5 w-5 text-destructive" />
+                      </div>
+                      <span className="text-sm font-bold text-destructive">{item.stat}</span>
+                    </div>
+                    <CardTitle className="text-base">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
