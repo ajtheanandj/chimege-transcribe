@@ -24,6 +24,8 @@ import {
   ChevronUp,
   Zap,
   CheckCircle2,
+  Smartphone,
+  FileAudio,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -121,23 +123,21 @@ export default function LandingPage() {
               className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mb-6"
               variants={fadeInUp}
             >
-              Хурлын бичлэгээ
+              Хурлын тэмдэглэлд цагаа үрэхээ боль.
               <br />
-              <span className="text-primary">текст болго</span>
+              <span className="text-primary">Монгол хэлээрх яриаг минутын дотор үнэн зөв буулгуул.</span>
             </motion.h1>
             <motion.p
               className="text-lg md:text-xl text-muted-foreground mb-4 max-w-2xl mx-auto"
               variants={fadeInUp}
             >
-              Монгол хэлний хурал, уулзалтын аудио бичлэгийг автоматаар текст
-              болгож, илтгэгч бүрийг ялган таниулна.
+              Танд бичлэг эргүүлж сонсон, тэмдэглэл хөтлөхөөс чухал олон ажил бий. "Хурлын Тэмдэглэл" бол таны Монгол хэлээрх хурлыг автоматаар буулгаж, яригч бүрийг танин, цагийн тамгатай, төгс скриптийг бэлтгэдэг дэлхийн цорын ганц систем юм.
             </motion.p>
             <motion.p
               className="text-sm text-muted-foreground/70 mb-10"
               variants={fadeInUp}
             >
-              Turn Mongolian meeting recordings into accurate, speaker-labeled
-              transcripts — powered by Chimege AI.
+              The only tool in the world that automatically transcribes your Mongolian meetings, identifies every speaker, and delivers a perfect, time-stamped script.
             </motion.p>
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -145,14 +145,14 @@ export default function LandingPage() {
             >
               <Button asChild size="lg" className="text-base px-8">
                 <Link href="/auth/sign-up">
-                  Үнэгүй эхлэх
+                  Эхний буулгалтаа Үнэгүй Авах
                   <span className="text-xs opacity-80 ml-1">
-                    — Start free
+                    — Get Your Free Transcript Now
                   </span>
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-base">
-                <Link href="#how-it-works">Хэрхэн ажилладаг вэ?</Link>
+                <Link href="#how-it-works">Хэрхэн Ажилладагийг Харах</Link>
               </Button>
             </motion.div>
           </motion.div>
@@ -170,10 +170,10 @@ export default function LandingPage() {
             variants={fadeInUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Хэрхэн ажилладаг вэ?
+              Аудио бичлэгийг 3 алхмаар хэрэглээний тэмдэглэл болгох нь
             </h2>
             <p className="text-muted-foreground text-lg">
-              3 алхамаар хурлын тэмдэглэл бэлэн болно
+              From Audio to Actionable Record in 3 Simple Steps
             </p>
           </motion.div>
           <motion.div
@@ -187,23 +187,23 @@ export default function LandingPage() {
               {
                 icon: Upload,
                 step: "01",
-                title: "Аудио байршуулах",
-                titleEn: "Upload audio",
-                desc: "MP3, WAV, M4A файлаа чирж оруулна. 2 цаг хүртэлх бичлэг дэмжинэ.",
+                title: "Аудио файлаа оруулах",
+                titleEn: "Upload Your Audio",
+                desc: "Хурал, яриагаа манай системд шууд бичиж эсвэл Монгол хэлээрх аудио/видео файлаа хуулаарай. Онцгой формат шаардахгүй.",
               },
               {
                 icon: Brain,
                 step: "02",
-                title: "AI боловсруулалт",
-                titleEn: "AI processes",
-                desc: "Илтгэгчдийг ялгаж, Chimege AI монгол хэлний яриаг текст болгоно.",
+                title: "Хиймэл Оюунд Ажлаа Даатга",
+                titleEn: "Let AI Do the Heavy Lifting",
+                desc: "Манай дэвшилтэт AI нь Монгол хэл дээр тусгайлан сургагдсан. Яригч бүрийг ялган, үг нэг бүрийг өндөр нарийвчлалтайгаар тэр даруй буулгана.",
               },
               {
                 icon: FileText,
                 step: "03",
-                title: "Тэмдэглэл бэлэн",
-                titleEn: "Download transcript",
-                desc: "Цагийн тэмдэгт, илтгэгчийн нэртэй тэмдэглэлээ татаж авна.",
+                title: "Цэгцтэй Тэмдэглэлээ Хүлээн Авах",
+                titleEn: "Receive Your Formatted Transcript",
+                desc: "Хэдхэн минутын дотор уншихад хялбар, бүрэн эх бэлэн болно. Яригчийн нэр, цагийн тамгатай тэмдэглэлийг та хуулах, хуваалцах, хадгалахад бэлэн.",
               },
             ].map((item) => (
               <motion.div key={item.step} variants={fadeInUp}>
@@ -244,11 +244,11 @@ export default function LandingPage() {
               Онцлог давуу талууд
             </h2>
             <p className="text-muted-foreground text-lg">
-              Features that set us apart
+              Features That Set Us Apart
             </p>
           </motion.div>
           <motion.div
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -256,28 +256,40 @@ export default function LandingPage() {
           >
             {[
               {
-                icon: Users,
-                title: "Илтгэгч ялгалт",
-                titleEn: "Speaker diarization",
-                desc: "Хэн юу хэлснийг автоматаар ялгана.",
+                icon: Globe,
+                title: "Монгол хэлээр яриа таних дэлхийн цорын ганц AI",
+                titleEn: "The World's Only Mongolian Transcription AI",
+                desc: "Гаднын системд Монгол хэл ойлгуулах гэж оролдохоо боль. Манай системийг анхнаас нь эх хэлэндээ зориулан бүтээсэн тул нарийвчлал нь нертэй.",
               },
               {
-                icon: Globe,
-                title: "Монгол хэлний нарийвчлал",
-                titleEn: "Mongolian accuracy",
-                desc: "Chimege AI — монгол хэлэнд зориулсан.",
+                icon: Users,
+                title: "Яригчийг автоматаар таних",
+                titleEn: "Automatic Speaker Detection",
+                desc: "Хэн юу хэлснийг таах шаардлагагүй. Хиймэл оюун ярьж буй хүн бүрийг автоматаар таньж, нэрийг нь тэмдэглэл даяар тодорхой харуулна.",
               },
               {
                 icon: Clock,
-                title: "Цагийн тэмдэгт",
-                titleEn: "Timestamps",
-                desc: "Хэзээ юу хэлснийг секунд нарийвчлалтай.",
+                title: "Хурдан лавлагаа авах цагийн тамга",
+                titleEn: "Perfect Timestamps for Quick Reference",
+                desc: "Яг хэзээ, юу ярьсныг хялбархан олоорой. Мөр бүр цагийн тамгатай тул бичлэгийнхээ тухайн хэсэг рүү шууд үсрэх боломжтой.",
               },
               {
                 icon: Shield,
-                title: "Аюулгүй байдал",
-                titleEn: "Secure & private",
-                desc: "Таны файл зөвхөн танд хандагдана.",
+                title: "Найдвартай, нууцлалтай",
+                titleEn: "Secure and Confidential",
+                desc: "Таны яриа бол таны хэрэг. Бүх файлууд кодчилогдож, найдвартай боловсруулагдах бөгөөд хүний нүдээр харагдахгүй. Таны нууцлалыг бид баталгаажуулна.",
+              },
+              {
+                icon: Smartphone,
+                title: "Гар утсан дээр апп шиг ажиллана",
+                titleEn: "Works on Your Phone Like an App",
+                desc: "Утасныхаа дэлгэцэнд суулгаарай. Бичлэг хийх, зогсоох, тэмдэглэлээ авах. Гурхан товшилт. Ингээд л болоо.",
+              },
+              {
+                icon: FileAudio,
+                title: "Бүх төрлийн аудио, видео файл дээр ажиллана",
+                titleEn: "Works With Any Audio or Video",
+                desc: "Zoom-ийн хурал, шүүх хурлын бичлэг, утасны яриа гээд ямар ч файл байсан хуулахад л хангалттай. Үлдсэнийг нь бид даана.",
               },
             ].map((item, i) => (
               <motion.div key={i} variants={fadeInUp}>
@@ -311,9 +323,9 @@ export default function LandingPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Үнийн санал</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Энгийн, Ил Тод Үнэ. Багцаа Сонгоно Уу.</h2>
             <p className="text-muted-foreground text-lg">
-              Pricing — simple and transparent
+              Simple, Transparent Pricing. Choose Your Plan.
             </p>
           </motion.div>
           <motion.div
@@ -326,47 +338,47 @@ export default function LandingPage() {
             {[
               {
                 name: "Үнэгүй",
-                nameEn: "Free",
+                nameEn: "Манай хиймэл оюуны хүчийг мэдрэх хамгийн төгс арга.",
                 price: "₮0",
                 period: "/сар",
                 features: [
                   "Сард 30 минут",
-                  "Илтгэгч ялгалт",
-                  "Цагийн тэмдэгт",
-                  "TXT татах",
+                  "Яригч таних",
+                  "Монгол хэлээр буулгах",
+                  "Энгийн хурд",
+                  "Найдвартай",
                 ],
-                cta: "Үнэгүй эхлэх",
+                cta: "Үнэгүй Эхлүүлэх",
                 popular: false,
               },
               {
                 name: "Мэргэжилтэн",
-                nameEn: "Professional",
+                nameEn: "Цаг заваа үнэлдэг мэргэжилтнүүдэд. Манай хамгийн эрэлттэй багц.",
                 price: "₮29,900",
                 period: "/сар",
                 features: [
-                  "Сард 300 минут",
-                  "Илтгэгч ялгалт",
-                  "Цагийн тэмдэгт",
-                  "TXT + DOCX татах",
-                  "Тэргүүлэх дэмжлэг",
+                  "Сард 10 цаг",
+                  "Шуурхай боловсруулалт",
+                  "PDF/DOCX-р экспортлох",
+                  "Олноор оруулах",
+                  "Шинэ функц түрүүлж ашиглах",
                 ],
-                cta: "Сонгох",
+                cta: "Pro-г Эхлүүлэх",
                 popular: true,
               },
               {
                 name: "Байгууллага",
-                nameEn: "Enterprise",
+                nameEn: "Засгийн газар, хууль эрх зүй, хэвлэл мэдээллийн байгууллагуудад зориулсан хязгааргүй боломж.",
                 price: "₮99,900",
                 period: "/сар",
                 features: [
-                  "Хязгааргүй минут",
-                  "Илтгэгч ялгалт",
-                  "Цагийн тэмдэгт",
-                  "Бүх формат",
-                  "API хандалт",
-                  "Тусгай дэмжлэг",
+                  "Хязгааргүй цаг",
+                  "Тусгай менежер",
+                  "Хамгийн өндөр зэрэглэлийн үйлчилгээ",
+                  "Тусгай API",
+                  "Багаар ажиллах",
                 ],
-                cta: "Холбогдох",
+                cta: "Борлуулалттай Холбогдох",
                 popular: false,
               },
             ].map((plan, i) => (
@@ -377,7 +389,7 @@ export default function LandingPage() {
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <Badge className="bg-primary text-primary-foreground">
-                        Түгээмэл
+                        Түгээмэл — Most Popular
                       </Badge>
                     </div>
                   )}
@@ -444,24 +456,24 @@ export default function LandingPage() {
           >
             <div className="px-5">
               <FAQItem
-                question="Ямар аудио формат дэмжигддэг вэ?"
-                answer="MP3, WAV, OGG, M4A, WebM форматууд дэмжигдэнэ. Файлын хэмжээ 500MB хүртэл, нэг удаагийн бичлэг 2 цаг хүртэл байж болно."
+                question="Энэ үнэхээр хүнээс илүү нарийвчлалтай юу?"
+                answer="Түүхий эх буулгалтад бол тийм. Хүн ядардаг, үг буруу сонсдог, алдаатай бичдэг. Харин манай AI нь тогтвортой бөгөөд олон мянган цагийн Монгол аудио бичлэг дээр сургагдсан. Анхны хувилбар үргэлж төгс."
               />
               <FAQItem
-                question="Хэр нарийвчлалтай вэ?"
-                answer="Chimege AI нь монгол хэлний яриа таних тусгай загвар бөгөөд 95%+ нарийвчлалтай ажилладаг. Чанартай аудио бичлэг илүү сайн үр дүн өгнө."
+                question="Миний мэдээлэл хэр нууцлалтай вэ? Би нууц мэдээлэлтэй ажилладаг."
+                answer="Бүх мэдээлэл банкны түвшний нууцлалаар кодчилогдоно. Таны файлыг зөвхөн AI боловсруулна, ажилтнууд хэзээ ч хандахгүй. Хууль эрх зүй, засгийн газрын үйлчлүүлэгчдийн хувьд аюулгүй байдал бол бидний нэн тэргүүний зорилт."
               />
               <FAQItem
-                question="Миний файлууд аюулгүй юу?"
-                answer="Тийм. Бүх файл шифрлэгдсэн Supabase Storage-д хадгалагдах бөгөөд зөвхөн та хандах боломжтой. Боловсруулалт дууссаны дараа аудио файлыг автоматаар устгах боломжтой."
+                question="Аудио бичлэгийн чанар муу бол яах вэ?"
+                answer="Манай AI гаднын дуу чимээ, өөр өөр аялгыг сайн боловсруулдаг. Цэвэр бичлэг = илүү сайн үр дүн, гэхдээ та хүнд нөхцөлтэй бичлэг дээр ч нарийвчлалыг хараад гайхах болно."
               />
               <FAQItem
-                question="Хэдэн илтгэгч ялгах боломжтой?"
-                answer="Pyannote AI нь 20 хүртэлх илтгэгчийг автоматаар ялган таних чадвартай. Ихэнх хурлын хувьд маш нарийвчлалтай ажилладаг."
+                question="Үүнийг хууль эрх зүйн үйл ажиллагаанд ашиглаж болох уу?"
+                answer="Мэдээж хэрэг. Хуулийн фирмүүд бидний гол үйлчлүүлэгчид. Яригчийн нэр, цагийн тамга нь хэргийн материал, мэдүүлэгт найдвартай баримт болдог."
               />
               <FAQItem
-                question="Англи хэл дэмжигдэх үү?"
-                answer="Одоогоор зөвхөн монгол хэлний яриа таних боломжтой. Ирээдүйд англи, орос хэлний дэмжлэг нэмэгдэх төлөвлөгөөтэй."
+                question="Манайд тэмдэглэл хөтөлдөг хүн бий. Энэ бидэнд яагаад хэрэгтэй гэж?"
+                answer="Та ажилтандаа машиныг илүү хурдан, хямд, нарийвчлалтай хийдэг бага үнэ цэнэтэй ажилд цалин төлж байна. Хамт олондоо өндөр үнэ цэнэтэй ажилдаа төвлөрөх боломж олго."
               />
             </div>
           </motion.div>
@@ -481,13 +493,13 @@ export default function LandingPage() {
               className="text-3xl md:text-4xl font-bold mb-4"
               variants={fadeInUp}
             >
-              Хурлын тэмдэглэлээ хялбарчлаарай
+              Тэмдэглэл Хөтлөхөө Боль. Шийдвэр Гарга.
             </motion.h2>
             <motion.p
               className="text-lg opacity-90 mb-8"
               variants={fadeInUp}
             >
-              Start transcribing your meetings today — free to try.
+              Stop Taking Notes. Start Making Decisions.
             </motion.p>
             <motion.div variants={fadeInUp}>
               <Button
@@ -496,7 +508,7 @@ export default function LandingPage() {
                 variant="secondary"
                 className="text-base px-8"
               >
-                <Link href="/auth/sign-up">Үнэгүй бүртгүүлэх</Link>
+                <Link href="/auth/sign-up">Эхний Тэмдэглэлээ Үнэгүй Аваарай</Link>
               </Button>
             </motion.div>
           </motion.div>
