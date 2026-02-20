@@ -1,0 +1,55 @@
+{
+  "name": "Хурлын Тэмдэглэл — Mongolian Meeting Transcriber",
+  "short_name": "ХТ",
+  "description": "Хурлын бичлэгээ текст болго. AI-powered Mongolian speech-to-text with speaker diarization.",
+  "start_url": "/protected",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4338ca",
+  "background_color": "#030712",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "share_target": {
+    "action": "/protected/transcribe",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "audio",
+          "accept": ["audio/*", ".mp3", ".wav", ".ogg", ".m4a", ".webm"]
+        }
+      ]
+    }
+  },
+  "categories": ["productivity", "business"],
+  "lang": "mn"
+}

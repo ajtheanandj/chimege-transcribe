@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <!-- Maskable icon: safe zone is inner 80% = 153.6px centered -->
+  <rect width="192" height="192" fill="#4338ca"/>
+  <g transform="translate(96,96)">
+    <rect x="-16" y="-40" width="32" height="48" rx="16" fill="white"/>
+    <path d="M-26,0 a26,26 0 0,0 52,0" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+    <line x1="0" y1="26" x2="0" y2="44" stroke="white" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-14" y1="44" x2="14" y2="44" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>
