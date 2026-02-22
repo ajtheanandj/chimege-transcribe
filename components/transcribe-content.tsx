@@ -62,6 +62,12 @@ const STEPS = [
     icon: FileText,
   },
   {
+    key: "summarizing",
+    label: "Хураангуй гаргаж байна",
+    labelEn: "Generating summary",
+    icon: FileText,
+  },
+  {
     key: "complete",
     label: "Дууссан",
     labelEn: "Complete",
@@ -77,6 +83,7 @@ type TranscriptionStatus =
   | "converting"
   | "diarizing"
   | "transcribing"
+  | "summarizing"
   | "complete"
   | "failed";
 
@@ -179,6 +186,11 @@ export function TranscribeContent() {
 
       if (!res.ok) {
         const body = await res.json();
+        if (res.status === 502) {
+          throw new Error(
+            "Python backend холбогдож чадсангүй. `npm run dev` ажиллаж байгаа эсэхийг шалгана уу. / Python backend not running. Make sure `npm run dev` starts both servers.",
+          );
+        }
         throw new Error(body.error ?? "Алдаа гарлаа");
       }
 
@@ -225,6 +237,9 @@ export function TranscribeContent() {
       return;
     }
 
+    const PENDING_STALE_MS = 30_000; // 30s — Python never picked it up
+    const ACTIVE_STALE_MS = 5 * 60_000; // 5min — overall processing timeout
+
     const interval = setInterval(async () => {
       try {
         const res = await fetch(`/api/transcribe/${transcriptionId}`);
@@ -237,11 +252,32 @@ export function TranscribeContent() {
           clearInterval(interval);
           if (navigator.vibrate) navigator.vibrate([50, 100, 50]);
           router.push(`/protected/transcription/${transcriptionId}`);
+          return;
         }
 
         if (data.status === "failed") {
           clearInterval(interval);
           setError(data.error_message ?? "Боловсруулалт амжилтгүй боллоо");
+          return;
+        }
+
+        // Safety net: detect stale jobs
+        if (data.created_at) {
+          const elapsed = Date.now() - new Date(data.created_at).getTime();
+          if (data.status === "pending" && elapsed > PENDING_STALE_MS) {
+            clearInterval(interval);
+            setError(
+              "Python backend хариу өгөхгүй байна. `npm run dev` ажиллаж байгаа эсэхийг шалгана уу. / Python backend not responding.",
+            );
+            setStatus("failed");
+            return;
+          }
+          if (elapsed > ACTIVE_STALE_MS) {
+            clearInterval(interval);
+            setError("Боловсруулалт хэт удсан байна. Дахин оролдоно уу. / Processing timed out.");
+            setStatus("failed");
+            return;
+          }
         }
       } catch {
         // Polling error — will retry
@@ -256,7 +292,8 @@ export function TranscribeContent() {
     status === "processing" ||
     status === "converting" ||
     status === "diarizing" ||
-    status === "transcribing";
+    status === "transcribing" ||
+    status === "summarizing";
 
   const currentStepIndex = STEPS.findIndex((s) => s.key === status);
 

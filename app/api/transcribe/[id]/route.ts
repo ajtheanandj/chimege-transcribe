@@ -19,7 +19,7 @@ export async function GET(
 
     const { data: transcription, error } = await supabase
       .from("transcriptions")
-      .select("id, status, error_message, duration_seconds, completed_at")
+      .select("id, status, error_message, duration_seconds, completed_at, created_at")
       .eq("id", id)
       .single();
 

@@ -3,13 +3,21 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Copy, CheckCircle2 } from "lucide-react";
+import { Copy, CheckCircle2, Sparkles, ListChecks, Lightbulb, CircleCheckBig } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Segment {
   speaker: string;
   start: number;
   end: number;
   text: string;
+}
+
+interface MeetingSummary {
+  overview: string;
+  key_points: string[];
+  action_items: string[];
+  decisions: string[];
 }
 
 const SPEAKER_COLORS = [
@@ -30,9 +38,11 @@ function formatTimestamp(seconds: number): string {
 export function TranscriptViewer({
   segments,
   audioUrl,
+  summary,
 }: {
   segments: Segment[];
   audioUrl?: string | null;
+  summary?: MeetingSummary | null;
 }) {
   const [copied, setCopied] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -63,6 +73,72 @@ export function TranscriptViewer({
 
   return (
     <div className="space-y-4">
+      {/* AI Summary */}
+      {summary && (
+        <Card className="bg-primary/5 border-primary/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              AI Хураангуй / Summary
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm leading-relaxed">{summary.overview}</p>
+
+            {summary.key_points.length > 0 && (
+              <div>
+                <h4 className="text-sm font-medium flex items-center gap-1.5 mb-2">
+                  <Lightbulb className="h-3.5 w-3.5" />
+                  Гол санаанууд / Key Points
+                </h4>
+                <ul className="space-y-1">
+                  {summary.key_points.map((point, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-primary shrink-0">-</span>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {summary.action_items.length > 0 && (
+              <div>
+                <h4 className="text-sm font-medium flex items-center gap-1.5 mb-2">
+                  <ListChecks className="h-3.5 w-3.5" />
+                  Хийх ажлууд / Action Items
+                </h4>
+                <ul className="space-y-1">
+                  {summary.action_items.map((item, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-primary shrink-0">-</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {summary.decisions.length > 0 && (
+              <div>
+                <h4 className="text-sm font-medium flex items-center gap-1.5 mb-2">
+                  <CircleCheckBig className="h-3.5 w-3.5" />
+                  Шийдвэрүүд / Decisions
+                </h4>
+                <ul className="space-y-1">
+                  {summary.decisions.map((decision, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-primary shrink-0">-</span>
+                      {decision}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* Audio player */}
       {audioUrl && (
         <audio

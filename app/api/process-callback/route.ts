@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { generateMeetingSummary } from "@/lib/anthropic";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,34 +33,90 @@ export async function POST(request: NextRequest) {
       .eq("id", job_id)
       .single();
 
-    const updateData: Record<string, unknown> = {
-      status: status ?? "complete",
-    };
-
-    if (result) {
-      updateData.result = result;
-    }
-    if (error_message) {
-      updateData.error_message = error_message;
-    }
-    if (duration_seconds) {
-      updateData.duration_seconds = Math.round(duration_seconds);
-    }
-    if (status === "complete") {
-      updateData.completed_at = new Date().toISOString();
-    }
-
-    const { error: updateError } = await supabase
-      .from("transcriptions")
-      .update(updateData)
-      .eq("id", job_id);
-
-    if (updateError) {
-      console.error("Update error:", updateError);
+    if (!status) {
       return NextResponse.json(
-        { error: "Failed to update transcription" },
-        { status: 500 },
+        { error: "status is required" },
+        { status: 400 },
       );
+    }
+
+    // When complete with segments: save transcript, generate summary, then finalize
+    if (status === "complete" && result?.segments?.length) {
+      // Step 1: Save transcript and set status to "summarizing"
+      const { error: transcriptError } = await supabase
+        .from("transcriptions")
+        .update({
+          status: "summarizing",
+          result,
+          ...(duration_seconds && { duration_seconds: Math.round(duration_seconds) }),
+        })
+        .eq("id", job_id);
+
+      if (transcriptError) {
+        console.error("Transcript save error:", transcriptError);
+        return NextResponse.json(
+          { error: "Failed to save transcript" },
+          { status: 500 },
+        );
+      }
+
+      // Step 2: Generate AI summary (non-blocking — transcript is already saved)
+      let finalResult = result;
+      try {
+        const summary = await generateMeetingSummary(result.segments);
+        if (summary) {
+          finalResult = { ...result, summary };
+        }
+      } catch (err) {
+        console.error("Summary generation failed (transcript still saved):", err);
+      }
+
+      // Step 3: Mark as complete with final result (with or without summary)
+      const { error: finalError } = await supabase
+        .from("transcriptions")
+        .update({
+          status: "complete",
+          result: finalResult,
+          completed_at: new Date().toISOString(),
+        })
+        .eq("id", job_id);
+
+      if (finalError) {
+        console.error("Final update error:", finalError);
+        return NextResponse.json(
+          { error: "Failed to finalize transcription" },
+          { status: 500 },
+        );
+      }
+    } else {
+      // Non-complete statuses: update normally
+      const updateData: Record<string, unknown> = { status };
+
+      if (result) {
+        updateData.result = result;
+      }
+      if (error_message) {
+        updateData.error_message = error_message;
+      }
+      if (duration_seconds) {
+        updateData.duration_seconds = Math.round(duration_seconds);
+      }
+      if (status === "complete") {
+        updateData.completed_at = new Date().toISOString();
+      }
+
+      const { error: updateError } = await supabase
+        .from("transcriptions")
+        .update(updateData)
+        .eq("id", job_id);
+
+      if (updateError) {
+        console.error("Update error:", updateError);
+        return NextResponse.json(
+          { error: "Failed to update transcription" },
+          { status: 500 },
+        );
+      }
     }
 
     // Update usage if complete

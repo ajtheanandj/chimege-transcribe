@@ -5,6 +5,7 @@ Speaker diarization (pyannote) + Mongolian STT (Chimege API)
 
 import os
 import uuid
+import time
 import tempfile
 import subprocess
 import logging
@@ -55,13 +56,20 @@ job_statuses: dict[str, str] = {}
 
 
 def update_status(job_id: str, status: str, callback_url: str, **kwargs):
-    """Update job status locally and notify the callback URL."""
+    """Update job status locally and notify the callback URL with retries."""
     job_statuses[job_id] = status
-    try:
-        payload = {"job_id": job_id, "status": status, **kwargs}
-        requests.post(callback_url, json=payload, timeout=10)
-    except Exception as e:
-        logger.error(f"Callback failed for {job_id}: {e}")
+    payload = {"job_id": job_id, "status": status, **kwargs}
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            resp = requests.post(callback_url, json=payload, timeout=15)
+            resp.raise_for_status()
+            return
+        except Exception as e:
+            logger.error(f"Callback attempt {attempt + 1}/{max_retries} failed for {job_id}: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)  # 1s, 2s backoff
+    logger.error(f"All callback retries exhausted for {job_id} (status={status})")
 
 
 def download_audio(url: str, dest: str) -> None:
@@ -93,12 +101,21 @@ def convert_to_wav(input_path: str, output_path: str) -> float:
 
 def run_diarization(wav_path: str) -> list[dict]:
     """Run pyannote speaker diarization."""
+    import torch
     from pyannote.audio import Pipeline
 
-    pipeline = Pipeline.from_pretrained(
-        "pyannote/speaker-diarization-3.1",
-        use_auth_token=HF_TOKEN,
-    )
+    # PyTorch 2.6+ defaults weights_only=True which breaks pyannote model loading.
+    # These are trusted HuggingFace checkpoints, so override with weights_only=False.
+    _original_load = torch.load
+    torch.load = lambda *args, **kwargs: _original_load(*args, **{**kwargs, "weights_only": False})
+
+    try:
+        pipeline = Pipeline.from_pretrained(
+            "pyannote/speaker-diarization-3.1",
+            use_auth_token=HF_TOKEN,
+        )
+    finally:
+        torch.load = _original_load
 
     diarization = pipeline(wav_path)
 

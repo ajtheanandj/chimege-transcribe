@@ -71,14 +71,38 @@ async function TranscriptionContent({ id }: { id: string }) {
   }
 
   const segments: Segment[] = transcription.result?.segments ?? [];
+  const summary = transcription.result?.summary ?? null;
   const speakers = [...new Set(segments.map((s: Segment) => s.speaker))];
 
-  const plainText = segments
+  // Build download text with summary + transcript
+  const summaryText = summary
+    ? [
+        "=== AI ХУРААНГУЙ / SUMMARY ===",
+        "",
+        summary.overview,
+        "",
+        ...(summary.key_points?.length
+          ? ["--- Гол санаанууд / Key Points ---", ...summary.key_points.map((p: string) => `- ${p}`), ""]
+          : []),
+        ...(summary.action_items?.length
+          ? ["--- Хийх ажлууд / Action Items ---", ...summary.action_items.map((a: string) => `- ${a}`), ""]
+          : []),
+        ...(summary.decisions?.length
+          ? ["--- Шийдвэрүүд / Decisions ---", ...summary.decisions.map((d: string) => `- ${d}`), ""]
+          : []),
+        "=== БИЧВЭР / TRANSCRIPT ===",
+        "",
+      ].join("\n")
+    : "";
+
+  const transcriptText = segments
     .map(
       (s: Segment) =>
         `[${formatTimestamp(s.start)} - ${formatTimestamp(s.end)}] ${s.speaker}:\n${s.text}`,
     )
     .join("\n\n");
+
+  const plainText = summaryText + transcriptText;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -171,6 +195,7 @@ async function TranscriptionContent({ id }: { id: string }) {
             <TranscriptViewer
               segments={segments}
               audioUrl={transcription.file_url}
+              summary={summary}
             />
           </CardContent>
         </Card>
